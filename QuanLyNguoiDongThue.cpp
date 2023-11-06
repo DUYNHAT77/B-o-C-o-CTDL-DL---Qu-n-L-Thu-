@@ -14,17 +14,13 @@ struct NGUOIDONGTHUE
 	char nguoiDungDau[50];
 	float donGia;
 	float tienThue;
-	
 };
-
 //ds lk don
-
 struct Node
 {
 	NGUOIDONGTHUE info;
 	struct Node*next;
 };
-
 struct List
 {
 	Node *Head;
@@ -83,7 +79,6 @@ void nhapNDT(NGUOIDONGTHUE &x)
 		x.donGia=3000;
 		x.tienThue=3000*x.dienTich;
 	}
-	
 }
 void NhapDSNDT(List &Q)
 {
@@ -97,9 +92,7 @@ void NhapDSNDT(List &Q)
 		pNDT=getNode(x);
 		insertLast(Q,pNDT);
 	}
-	
 }
-
 void xuatNDT(NGUOIDONGTHUE x)
 {
 	cout<<setw(18)<<left<<x.maNguoiDT<<"\t";
@@ -113,10 +106,8 @@ void xuatNDT(NGUOIDONGTHUE x)
 	cout<<setw(7)<<left<<x.donGia;
 	cout<<setw(10)<<left<<x.tienThue;
 	cout<<endl;
-	
 }
-void xuatDSNDT(List &Q)
-{
+void xuatDSNDT(List &Q){
 	Node*pNDT;
 	cout<<"danh sach hien co:"<<endl;
 	cout<<setw(18)<<left<<"Ma Nguoi Dong Thue"<<"\t"
@@ -133,18 +124,14 @@ void xuatDSNDT(List &Q)
 	for(pNDT=Q.Head;pNDT!=NULL;pNDT=pNDT->next)
 	   xuatNDT(pNDT->info);
 }
-
-
 //tim lkien
-Node *search(List &Q, int k)
-{
+Node *search(List &Q, int k){
 	Node *pNDT;
 	for (pNDT=Q.Head;pNDT!=NULL;pNDT=pNDT->next)
 	    if (pNDT->info.maNguoiDT==k) break;
 	    return pNDT;
 }
-void sapxeptheodientich(List &Q)
-{
+void sapxeptheodientich(List &Q){
 	Node *pNDT, *q;
 	NGUOIDONGTHUE tg;
 	for(pNDT=Q.Head;pNDT!=NULL;pNDT=pNDT->next)
@@ -156,7 +143,6 @@ void sapxeptheodientich(List &Q)
 	      	q->info=tg;
 		   }   
 }
-
 void ThongKe(List &Q, char quyMo[]){
 	Node *pNDT;
 	for(pNDT=Q.Head;pNDT!=NULL;pNDT=pNDT->next)
@@ -164,7 +150,6 @@ void ThongKe(List &Q, char quyMo[]){
 			xuatNDT(pNDT->info);
 		}
 }
-
 void Sapxepdiachi(List &Q){
 	Node *pNDT, *q;
 	NGUOIDONGTHUE tg;
@@ -179,9 +164,7 @@ void Sapxepdiachi(List &Q){
 		  xuatDSNDT(Q);  
 }
 //xoa theo ma dong thue
-
-void Remove(List &Q, int ma)
-{
+void Remove(List &Q, int ma){
 	Node *pNDT=Q.Head, *q=NULL;
 	while(pNDT!=NULL){
 		if(pNDT->info.maNguoiDT==ma) break;
@@ -203,9 +186,7 @@ void Remove(List &Q, int ma)
 	}
 	cout<<"Xoa thanh cong"<<endl;
 }
-
 //cho biet Cong ty co dia chi tai x
-
 void TimDiaChi(List &Q, char x[])
 {
 	Node*pNDT;
@@ -215,7 +196,6 @@ void TimDiaChi(List &Q, char x[])
 	xuatNDT(pNDT->info);
 	cout<<endl;
 }
-
 void DienTichMax(List &Q){
 	Node *pNDT;
 	float max=-1;
@@ -226,7 +206,6 @@ void DienTichMax(List &Q){
 	if(pNDT->info.dienTich==max)
 	xuatNDT(pNDT->info);
 }
-
 void Sua(List &Q) {
 	Node *pNDT,*qNDT,*m;
 	NGUOIDONGTHUE x;
@@ -253,11 +232,7 @@ void Sua(List &Q) {
 			}
 	Remove(Q,maNDT);
 	xuatDSNDT(Q);
-		
 }
-
-
-
 void chenphantusauma(List &Q){
 	Node *p, *q;
 	int maChen,dem=0;
@@ -280,11 +255,9 @@ void chenphantusauma(List &Q){
 		}
 	if(dem==0) cout<<"Khong tim thay ma"<<endl;
 	xuatDSNDT(Q);
-	
 }
 //Luu file
-void Luufile(FILE *f, List &Q, char *name)
-{
+void Luufile(FILE *f, List &Q, char *name){
 	f=fopen(name,"w+b");
 	int n=0;
 	Node *pNDT;
@@ -299,10 +272,7 @@ void Luufile(FILE *f, List &Q, char *name)
 	fclose(f);
 	cout<<"Ghi file thanh cong"<<endl;
 }
-
-
-void DocFile(FILE *f, List &Q, char *name)
-{
+void DocFile(FILE *f, List &Q, char *name){
 	NGUOIDONGTHUE x;
 	int i,n;
 	Node *pNDT;
@@ -325,38 +295,28 @@ void DocFile(FILE *f, List &Q, char *name)
 	cout<<"doc file thanh cong"<<endl;
 	xuatDSNDT(Q);
 }
-
 //===Quan Ly Phieu Thu Thue(Danh sach lien ket doi)===
-
 // using namespace std;
 struct phieuthu {
 	int mapt;
 	string thoigian, nguoilap, hotennguoinop;
 	float tongtien, sotiengiam, sotiencandong;
-	
 };
-
-
 struct NodePT{
 	phieuthu info;
 	struct NodePT*next; 
 	struct NodePT*prev;
 };
-
-
 struct LISTPT{
 	NodePT*Head;
 	NodePT*Tail;
 };
-
-
 LISTPT PT;
 void khoitaoPT ( LISTPT & PT )
 {
 	PT.Head = NULL;
 	PT.Tail = NULL;
 }
-
 NodePT * GetNode( phieuthu x  )
 {
 	NodePT *p;
@@ -371,8 +331,6 @@ NodePT * GetNode( phieuthu x  )
 	p -> prev = NULL;
 	return p;
 } 
-
-
 void chencuoipt( LISTPT & PT, NodePT *p )
 {
 if ( PT.Head == NULL ) //nêu danh sách rông
@@ -400,9 +358,7 @@ void nhappt ( phieuthu &x){
 	cout<<"\ntien giam tru: ";
 	cin>>x.sotiengiam;
 	x.sotiencandong= x.tongtien - x.sotiengiam;
-	
 }
-
 void nhapdspt ( LISTPT & PT){
 	int n;
 	NodePT * p;
@@ -414,10 +370,7 @@ void nhapdspt ( LISTPT & PT){
 		p = GetNode(x); 
 		chencuoipt( PT, p);
 		}
-		
 }
-
-
 void xuatpt ( phieuthu x){
 	cout<<"\n"<<setw(5) << x.mapt;
 	cout<<setw(15)<< x.hotennguoinop;
@@ -426,8 +379,6 @@ void xuatpt ( phieuthu x){
 	cout<<setw(17)<< x.sotiengiam;
 	cout<<setw(17)<< x.sotiencandong;
 }
-
-
 void xuatdspt ( LISTPT & PT){
 	NodePT *p;
 	cout<<"\n ds phieu thu hien co: \n";
@@ -516,15 +467,12 @@ if(f == NULL)
  	p=GetNode(x);
  	chencuoipt(PT,p);
  	}
-
- while(!feof(f));
+while(!feof(f));
  
  	fclose(f);
  	cout<<"Danh sach trong file "<<filename<<" la:"<<endl;
  	xuatdspt(PT);
 }
-
-
 void XoaNodeDau(LISTPT &PT){
 	{
 		if (PT.Head != NULL)
@@ -540,7 +488,6 @@ void XoaNodeDau(LISTPT &PT){
 		}
 	}
 }
-
 void XoaNodeCuoi(LISTPT &PT){
 if (PT.Head->next == NULL)
 {
@@ -557,7 +504,6 @@ PT.Tail = p;
 }
 }
 }
-
 void XoaNodeCoKhoaBatKy (LISTPT &PT,int xoa ){
 	 NodePT *p;
 	p = timmapt (PT,xoa); //Tìm ki?m ph?n t? d? xóa
@@ -578,9 +524,6 @@ else
 	free(p);
 	}
 }
-
-
-
 int main()
 {
 	List Q;
@@ -668,7 +611,11 @@ int main()
 				break;
 			}
 			case 2: {
-						do{
+			
+				
+				
+				
+				do{
 						cout<<"\n 1,nhap dspt";
 						cout<<"\n 2.in dspt";
 						cout<<"\n 3.tim kiem ma pt: ";
