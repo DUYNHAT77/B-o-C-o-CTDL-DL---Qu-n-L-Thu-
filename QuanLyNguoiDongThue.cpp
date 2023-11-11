@@ -469,7 +469,7 @@ int main()
 	
 	List Q;
 	Node *pNDT;
-	int k,chon,luachon,choose, chon01;
+	int k,chon,luachon;
 	KhoiTao(Q);
 	FILE *f;
 	char filename[20] = "nguoidongthue.txt" ;
@@ -478,10 +478,10 @@ int main()
     int luaChon;
     do {
 		cout<<"==== PHAN MEM QUAN LY THU DONG THUE ====\n";
-        cout<<"1. Dang ky tai khoan. << endl;
+        cout<<"1. Dang ky tai khoan." << endl;
         cout<<"2. Dang nhap." << endl;
         cout<<"0. Thoat." << endl;
-        cout<<"Lua chon: "; cin >> luaChon; <<endl;
+        cout<<"Lua chon: "; cin >> luaChon;
 
         switch (luaChon) {
             case 1: {
@@ -493,7 +493,7 @@ int main()
                 cout << "Nhap mat khau: "; cin >> pass;
 
                 nguoiDung.DangKiTaiKhoan(ten, pass);
-                cout << "Dang ky tai khoan thanh cong!" << endl;
+                cout << "\nDang ky tai khoan thanh cong!" << endl;
 				goto Den_Dang_Nhap;
                 break;
             }
@@ -506,7 +506,7 @@ int main()
                 cout << "Nhap mat khau: "; cin >> pass;
 
                 if (nguoiDung.DangNhapTaiKhoan(ten, pass)) {
-                    cout << "Dang nhap thanh cong!" << endl;
+                    cout << "\nDang nhap thanh cong!" << endl;
 					goto ChuyenToiPhanMem;
                 } else {
                     cout << "Dang nhap that bai. Ten dang nhap hoac mat khau khong chinh xac." << endl;
