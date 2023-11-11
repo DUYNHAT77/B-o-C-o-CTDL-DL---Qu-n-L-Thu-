@@ -3,6 +3,63 @@ using namespace std;
 
 //===Quan Ly Nguoi Dong Thue(Danh sach lien ket don)===
 
+// Cấu trúc thông tin về tài khoản
+struct TaiKhoan {
+    char tenDangNhap[50];
+    char matKhau[50];
+};
+
+// Struct để tạo nút cho mỗi TaiKhoan
+struct NODE {
+    TaiKhoan* data; // Con trỏ đến TaiKhoan
+    NODE* next;
+};
+
+class NguoiDung {
+private:
+    NODE* tail;
+    NODE* head;
+
+public:
+    NguoiDung() {
+        head = tail = NULL;
+    }
+
+    void DangKiTaiKhoan(const char TenTaiKhoan[50], const char MatKhau[50]) {
+        NODE* p = new NODE;
+        p->data = new TaiKhoan; // Cấp phát bộ nhớ cho TaiKhoan
+
+        // Sao chép thông tin từ đối số vào TaiKhoan mới
+        strcpy(p->data->tenDangNhap, TenTaiKhoan);
+        strcpy(p->data->matKhau, MatKhau);
+
+        p->next = NULL;
+
+        if (head == NULL) {
+            head = tail = p;
+        } else {
+            tail->next = p;
+            tail = p;
+        }
+    }
+
+    bool DangNhapTaiKhoan(const char TenTaiKhoan[50], const char MatKhau[50]) {
+        NODE* p = head;
+
+        // Lặp qua danh sách để kiểm tra thông tin đăng nhập
+        while (p != NULL) {
+            if (strcmp(p->data->tenDangNhap, TenTaiKhoan) == 0 &&
+                strcmp(p->data->matKhau, MatKhau) == 0) {
+                return true; // Đăng nhập thành công
+            }
+            p = p->next;
+        }
+
+        // Nếu không tìm thấy tài khoản
+        return false;
+    }
+};
+
 struct NGUOIDONGTHUE
 {
 	int maNguoiDT;
@@ -405,283 +462,79 @@ void DocFile(FILE *f, List &Q, char *name)
     xuatDSNDT(Q); // Output list data
 }
 
-// //===Quan Ly Phieu Thu Thue(Danh sach lien ket doi)===
-
-// // using namespace std;
-// struct phieuthu {
-// 	int mapt;
-// 	string thoigian, nguoilap, hotennguoinop;
-// 	float tongtien, sotiengiam, sotiencandong;
-	
-// };
-
-
-// struct NodePT{
-// 	phieuthu info;
-// 	struct NodePT*next; 
-// 	struct NodePT*prev;
-// };
-
-
-// struct LISTPT{
-// 	NodePT*Head;
-// 	NodePT*Tail;
-// };
-
-
-// LISTPT PT;
-// void khoitaoPT ( LISTPT & PT )
-// {
-// 	PT.Head = NULL;
-// 	PT.Tail = NULL;
-// }
-
-// NodePT * GetNode( phieuthu x  )
-// {
-// 	NodePT *p;
-// 	p = new NodePT();
-// 	if (p == NULL)
-// {
-// 	cout<<("Ko du bo nho");
-// 	exit(1);
-// }
-// 	p -> info = x;
-// 	p -> next = NULL;
-// 	p -> prev = NULL;
-// 	return p;
-// } 
-
-
-// void chencuoipt( LISTPT & PT, NodePT *p )
-// {
-// if ( PT.Head == NULL ) //nêu danh sách rông
-// {
-// PT.Head = p;
-// PT.Tail = PT.Head;
-// }
-// else //danh sách không rông
-// {
-// PT.Tail->next=p;
-// p->prev=PT.Tail;
-// PT.Tail=p;
-// }
-// }
-// void nhappt ( phieuthu &x){
-// 	cout<<"\nma phieu thu: ";
-// 	cin>>x.mapt;
-// 	cout<<"\nho ten nguoi nop: ";
-// 	cin.ignore();
-// 	getline(cin,x.hotennguoinop);
-// 	cout<<"\nthoi gian lap: ";
-// 	getline(cin, x.thoigian);
-// 	cout<<"\nnhap tong tien: ";
-// 	cin>>x.tongtien;
-// 	cout<<"\ntien giam tru: ";
-// 	cin>>x.sotiengiam;
-// 	x.sotiencandong= x.tongtien - x.sotiengiam;
-	
-// }
-
-// void nhapdspt ( LISTPT & PT){
-// 	int n;
-// 	NodePT * p;
-// 	phieuthu x;
-// 	cout <<" nhap so phieu thu: "; cin>>n;
-// 	for (int i=1 ; i<=n ; i++)
-// 	{
-// 		nhappt (x);
-// 		p = GetNode(x); 
-// 		chencuoipt( PT, p);
-// 		}
-		
-// }
-
-
-// void xuatpt ( phieuthu x){
-// 	cout<<"\n"<<setw(5) << x.mapt;
-// 	cout<<setw(15)<< x.hotennguoinop;
-// 	cout<<setw(15)<< x.thoigian;
-// 	cout<<setw(15)<< x.tongtien;
-// 	cout<<setw(17)<< x.sotiengiam;
-// 	cout<<setw(17)<< x.sotiencandong;
-// }
-
-
-// void xuatdspt ( LISTPT & PT){
-// 	NodePT *p;
-// 	cout<<"\n ds phieu thu hien co: \n";
-// 	cout<<"\n"<<setw(8) << "ma pt";
-// 	cout<<setw(20)<< "ho ten nguoi dong";
-// 	cout<<setw(15)<< "thoi gian";
-// 	cout<<setw(15)<< "tong tien";
-// 	cout<<setw(17)<< "so tien giam";
-// 	cout<<setw(17)<< "so tien can dong";
-// 	for ( NodePT *p = PT.Head; p!= NULL;p = p->next)
-// 	xuatpt( p->info);	
-// }
-// NodePT * timmapt ( LISTPT &PT, int mpt ){
-// 	NodePT *p;
-// 	for (p=PT.Head; p!=NULL; p=p->next)
-// 	if (p->info.mapt == mpt)
-// 	break;
-// 	return p;
-// }
-// void sapxeppt(LISTPT PT){
-// 	NodePT *p;
-// 	NodePT *q;
-// 	phieuthu tg;
-// 	cout<<"\nsap xep theo so tien can dong";
-// 	for(p = PT.Head; p!=NULL; p=p->next)
-// 	for(q=p->next ; q!=NULL ; q=q->next){
-// 		if(p->info.sotiencandong<q->info.sotiencandong)
-// 		{
-// 			tg=p->info;
-// 			p->info=q->info;
-// 			q->info=tg;
-// 		}
-// 	}
-// 	xuatdspt(PT);	
-// }
-// void luuf(LISTPT PT){
-// 	FILE *f;
-// 	char filename[20];
-// 	cout<<"Nhap ten FILE: ";fflush(stdin);gets(filename);
-// 	f=fopen(filename,"w+b");
-// 	for (NodePT *p= PT.Head; p != NULL; p = p->next){
-// 		fwrite(&p->info,sizeof(phieuthu),1,f);
-// }
-// 			fclose(f);
-// 	FILE *t;
-// 	t=fopen("Ten FILE","a+b");
-// 	fwrite(&filename,sizeof(filename),1,t);
-// 	cout<<"Da luu vao: "<<filename<<endl;
-// 	fclose(t);
-
-
-// }
-// void docf(LISTPT PT){
-// 	khoitaoPT(PT);
-// 	FILE *f;
-// 	phieuthu x;
-// 	char filename[20];
-// 	NodePT*p;
-// 	cout<<"Mo file:\nCac FILE da luu:"<<endl;
-// 	char Ten[20];
-// 	FILE *t;
-// 	int i=0;
-// 	t=fopen("Ten FILE","r+b");
-// while(true)
-//  {
-//  if(t == NULL){ fclose(t);
-// break; 
-// }
-//  	fread(&Ten ,sizeof(Ten),1,t);
-//  	if(feof(t))break;
-//  	i++;
-//  	cout<<"File "<<i<<": "<<Ten<<endl;
-//  	}
-//  	fclose(t);
-// 	cout<<"Nhap ten FILE muon mo: ";fflush(stdin);gets(filename);
-// 	f=fopen(filename,"r+b");
-// if(f == NULL)
-//  {
-// 	 cout<<"\nLoi mo tep";
-// 	 return;
-//  	}
-//  	while(true)
-//  	{
-//  	fread(&x ,sizeof(phieuthu),1,f);
-//  	if(feof(f))break;
-//  	p=GetNode(x);
-//  	chencuoipt(PT,p);
-//  	}
-
-//  while(!feof(f));
- 
-//  	fclose(f);
-//  	cout<<"Danh sach trong file "<<filename<<" la:"<<endl;
-//  	xuatdspt(PT);
-// }
-
-
-// void XoaNodeDau(LISTPT &PT){
-// 	{
-// 		if (PT.Head != NULL)
-// 		{
-// 			NodePT *p = PT.Head; 
-// 			PT.Head = PT.Head->next;
-// 			PT.Head->prev=NULL;
-// 			delete p;
-// 		}
-// 		if(PT.Head==NULL)
-// 		{
-// 			khoitaoPT(PT);
-// 		}
-// 	}
-// }
-
-// void XoaNodeCuoi(LISTPT &PT){
-// if (PT.Head->next == NULL)
-// {
-// XoaNodeDau(PT);
-// return;
-// }
-// for (NodePT *p = PT.Head; p != NULL; p = p->next)
-// {
-// if (p->next == PT.Tail)
-// {
-// delete PT.Tail;
-// p->next = NULL; 
-// PT.Tail = p; 
-// }
-// }
-// }
-
-// void XoaNodeCoKhoaBatKy (LISTPT &PT,int xoa ){
-// 	 NodePT *p;
-// 	p = timmapt (PT,xoa); //Tìm ki?m ph?n t? d? xóa
-// 	if ( p == NULL ){
-// 		cout<<"Khong co phan tu"; exit(1);
-// 	}
-// else
-// 	{
-// if ( ( p == PT.Head ) && ( p == PT.Tail) )
-// 			{ PT.Head = NULL; PT.Tail = NULL; }
-// else if ( p == PT.Head ) PT.Head = p->next;
-// else if ( p == PT.Tail ) PT.Tail = p -> prev; 
-// else
-// 	{
-// 		p -> prev -> next = p -> next;
-// 		p -> next -> prev = p -> prev;
-// 	}
-// 	free(p);
-// 	}
-// }
-
-
 
 int main()
 {
+
+	
 	List Q;
 	Node *pNDT;
-	int k,chon,luachon,choose;
+	int k,chon,luachon,choose, chon01;
 	KhoiTao(Q);
 	FILE *f;
-	// NodePT *p;
-	// khoitaoPT(PT);
 	char filename[20] = "nguoidongthue.txt" ;
-	quay_ve_trang_chinh:
-	Quay_ve_trang_chinh:
-		
+   NguoiDung nguoiDung;
+
+    int luaChon;
+    do {
+		cout<<"==== PHAN MEM QUAN LY THU DONG THUE ====";
+        cout<<"|	1. Dang ky tai khoan.              |" << endl;
+        cout<<"|	2. Dang nhap.    				   |" << endl;
+        cout<<"|	0. Thoat.                          |" << endl;
+        cout<<"|	Lua chon: "; cin >> luaChon;cout<<"                         |"<<endl;
+		cout<<"|_________________________________________";
+        switch (luaChon) {
+            case 1: {
+				Dang_Ki:
+				cout<<"==== Dang ki tai khoan ====\n";
+
+                char ten[50], pass[50];
+                cout << "Nhap ten dang nhap: "; cin >> ten;
+                cout << "Nhap mat khau: "; cin >> pass;
+
+                nguoiDung.DangKiTaiKhoan(ten, pass);
+                cout << "Dang ky tai khoan thanh cong!" << endl;
+				goto Den_Dang_Nhap;
+                break;
+            }
+            case 2: {
+				Den_Dang_Nhap:
+				cout<<"\n ==== Dang Nhap ==== \n";
+
+                char ten[50], pass[50];
+                cout << "Nhap ten dang nhap: "; cin >> ten;
+                cout << "Nhap mat khau: "; cin >> pass;
+
+                if (nguoiDung.DangNhapTaiKhoan(ten, pass)) {
+                    cout << "Dang nhap thanh cong!" << endl;
+					goto ChuyenToiPhanMem;
+                } else {
+                    cout << "Dang nhap that bai. Ten dang nhap hoac mat khau khong chinh xac." << endl;
+					goto Dang_Ki;
+                }
+                break;
+            }
+            case 0:
+                cout << "Ket thuc chuong trinh." << endl;
+                break;
+            default:
+                cout << "Lua chon khong hop le. Vui long nhap lai." << endl;
+        }
+
+    } while (luaChon != 0); exit(0);
+////////
+
+ChuyenToiPhanMem:
+	quay_ve_trang_chinh:	
 	do{
 		cout<<"\t|1.Quan Ly Nguoi Dong Thue "<<endl;
-		// cout<<"\t|2.Quan Ly Phieu Thu "<<endl;
 		cout<<"\t|0.Thoat "<<endl;
 		cout<<"Xin moi chon: "; cin>>luachon;
 		switch(luachon)
 		{
 			case 1: {
 						do{
+						cout<<">>>>>>> CHON CHUC NANG >>>>>>>\n";
 						cout<<"\t|1.Nhap danh sach nguoi dong thue "<<endl;
 						cout<<"\t|2.In danh sach nguoi dong thue "<<endl;
 						cout<<"\t|3.Tim kiem theo ma nguoi dong thue "<<endl;
@@ -749,88 +602,8 @@ int main()
 					}while(chon!=0);
 				break;
 			}
-			// case 2: {
-			// 			do{
-			// 			cout<<"\n 1,Nhap dspt";
-			// 			cout<<"\n 2.In dspt";
-			// 			cout<<"\n 3.Tim kiem ma pt: ";
-			// 			cout<<"\n 4.sxpt theo thanh tien giam dan:";
-			// 			cout<<"\n 5.Xoa phieu thu theo ma: ";
-			// 			cout<<"\n 6 Xoa phieu thu dau tien: ";
-			// 			cout<<"\n 7 Xoa phieu thu cuoi cung: ";
-			// 			cout<<"\n 8.Luu file: ";
-			// 			cout<<"\n 9.Doc file: ";
-			// 			cout<<"\n 00 Thoat ve giao dien chinh. ";
-			// 			cout<<"\n chon:";
-			// 			cin>>choose;
-			// 			switch(choose)
-			// 			{
-			// 				case 1: nhapdspt(PT); break;
-			// 				case 2: xuatdspt(PT);break;
-			// 				case 3:
-			// 					{
-			// 					cout<<"\n Nhap ma can tim";
-			// 					cin>>k;
-			// 					p= timmapt(PT, k);
-			// 					if ( p== NULL)
-			// 					cout<<"\n Khong tim thay ";
-			// 					else {
-			// 						cout<<"\n pt can tim la";
-			// 						cout<<"\n"<<setw(10) << "ma pt";
-			// 						cout<<setw(10)<< "Ho ten nguoi dong";
-			// 						cout<<setw(10)<< "Thoi gian";
-			// 						cout<<setw(10)<< "Tong tien";
-			// 						cout<<setw(10)<< "So tien giam";
-			// 						cout<<setw(10)<< "So tien can dong";
-			// 						xuatpt (p->info);
-									
-			// 					}
-			// 					}break;
-			// 					case 4: 
-			// 					{
-			// 					cout<<"Danh sach pt da sap xep:";
-			// 					sapxeppt(PT);
-			// 					cout<<"\n";
-			// 					}break;
-								
-			// 					case 5: 
-			// 					int xoa;
-			// 					cout<<"Nhap ma can xoa";
-			// 					cin>>xoa;
-			// 					XoaNodeCoKhoaBatKy(PT,xoa);
-			// 					cout<<"Danh sach sau khi xoa:";
-			// 					xuatdspt(PT);
-			// 					break;
-								
-			// 					case 6: {
-			// 					XoaNodeDau(PT);
-			// 					cout<<"Danh sach sau khi xoa phan tu dau tien: \n";
-			// 					xuatdspt(PT);
-			// 					}
-			// 					break;
-								
-			// 					case 7:{
-			// 						XoaNodeCuoi(PT);
-			// 						cout<<"Danh sach sau khi xoa phan tu cuoi cung:\n";
-			// 						xuatdspt(PT);
-			// 						break;
-			// 					}
-								
-			// 					case 8:{
-			// 						luuf( PT);
-			// 					return 0; }break;
-							
-			// 					case 9: {
-			// 						docf( PT );return 0; }break;
-			// 				 	case 00 : goto Quay_ve_trang_chinh; //exit(0);
-							 
-							
-			// 			}
-			// 		}
-			// 		while (choose!=0);
-			// 					break;
-			// 				}
 			case 0: exit(0);
 		}
 	}while(luachon!=0);
-}
+	return 0;
+};
