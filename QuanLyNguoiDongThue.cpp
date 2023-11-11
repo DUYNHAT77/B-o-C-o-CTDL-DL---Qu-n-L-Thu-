@@ -1,64 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//===Quan Ly Nguoi Dong Thue(Danh sach lien ket don)===
-
-// Cấu trúc thông tin về tài khoản
-struct TaiKhoan {
-    char tenDangNhap[50];
-    char matKhau[50];
-};
-
-// Struct để tạo nút cho mỗi TaiKhoan
-struct NODE {
-    TaiKhoan* data; // Con trỏ đến TaiKhoan
-    NODE* next;
-};
-
-class NguoiDung {
+// Định nghĩa lớp Tài khoản
+class Account {
 private:
-    NODE* tail;
-    NODE* head;
+    string username;
+    string password;
 
 public:
-    NguoiDung() {
-        head = tail = NULL;
-    }
+    Account(string uname, string pwd) : username(uname), password(pwd) {}
 
-    void DangKiTaiKhoan(const char TenTaiKhoan[50], const char MatKhau[50]) {
-        NODE* p = new NODE;
-        p->data = new TaiKhoan; // Cấp phát bộ nhớ cho TaiKhoan
-
-        // Sao chép thông tin từ đối số vào TaiKhoan mới
-        strcpy(p->data->tenDangNhap, TenTaiKhoan);
-        strcpy(p->data->matKhau, MatKhau);
-
-        p->next = NULL;
-
-        if (head == NULL) {
-            head = tail = p;
-        } else {
-            tail->next = p;
-            tail = p;
-        }
-    }
-
-    bool DangNhapTaiKhoan(const char TenTaiKhoan[50], const char MatKhau[50]) {
-        NODE* p = head;
-
-        // Lặp qua danh sách để kiểm tra thông tin đăng nhập
-        while (p != NULL) {
-            if (strcmp(p->data->tenDangNhap, TenTaiKhoan) == 0 &&
-                strcmp(p->data->matKhau, MatKhau) == 0) {
-                return true; // Đăng nhập thành công
-            }
-            p = p->next;
-        }
-
-        // Nếu không tìm thấy tài khoản
-        return false;
+    // Kiểm tra thông tin đăng nhập
+    bool checkLogin(string uname, string pwd) {
+        return (username == uname && password == pwd);
     }
 };
+
+
 
 struct NGUOIDONGTHUE
 {
@@ -463,70 +421,76 @@ void DocFile(FILE *f, List &Q, char *name)
 }
 
 
-int main()
-{
 
-	
-	List Q;
+
+int main() {
+
+
+    List Q;
 	Node *pNDT;
 	int k,chon,luachon;
 	KhoiTao(Q);
 	FILE *f;
 	char filename[20] = "nguoidongthue.txt" ;
-   NguoiDung nguoiDung;
 
-    int luaChon;
+    // Tạo một tài khoản 
+      Account sampleAccount("admin", "admin123");
+
+    string enteredUsername, enteredPassword;
+
     do {
-		cout<<"==== PHAN MEM QUAN LY THU DONG THUE ====\n";
-        cout<<"1. Dang ky tai khoan." << endl;
-        cout<<"2. Dang nhap." << endl;
-        cout<<"0. Thoat." << endl;
-        cout<<"Lua chon: "; cin >> luaChon;
+        cout<<"==== PHAN MEM QUAN LY THU DONG THUE ====\n";
+                chuyen:
+        cout<<"\n ==== Dang Nhap ==== \n";
+        cout << "Nhap ten dang nhap: ";
+        cin >> enteredUsername;
 
-        switch (luaChon) {
-            case 1: {
-				Dang_Ki:
-				cout<<"==== Dang ki tai khoan ====\n";
+        cout << "Nhap mat khau: ";
+        cin >> enteredPassword;
 
-                char ten[50], pass[50];
-                cout << "Nhap ten dang nhap: "; cin >> ten;
-                cout << "Nhap mat khau: "; cin >> pass;
+        // Kiểm tra đăng nhập
+        if (sampleAccount.checkLogin(enteredUsername, enteredPassword)) {
+            cout << "Dang nhap thanh cong!\n";
+            goto vao_chuong_trinh_chinh;
+            break;
+        } else {
+            cout << "Dang nhap that bai. Vui long kiem tra lai thong tin.\n";
 
-                nguoiDung.DangKiTaiKhoan(ten, pass);
-                cout << "\nDang ky tai khoan thanh cong!" << endl;
-				goto Den_Dang_Nhap;
+            // Hỏi người dùng có muốn đăng kí tài khoản mới không
+            cout << "Ban co muon dang ki tai khoan moi khong? (Y/N): ";
+            char choice;
+            cin >> choice;
+
+            if (choice == 'Y' || choice == 'y') {
+                cout<<"==== Dang ki tai khoan ====\n";
+                // Nhập thông tin tài khoản mới
+                string newUsername, newPassword;
+                cout << "Nhap ten dang nhap moi: ";
+                cin >> newUsername;
+
+                cout << "Nhap mat khau moi: ";
+                cin >> newPassword;
+
+                // Tạo một tài khoản mới
+                Account newAccount(newUsername, newPassword);
+                sampleAccount = newAccount;
+
+                cout << "Dang ki tai khoan thanh cong!\n";
+                goto chuyen;
                 break;
             }
-            case 2: {
-				Den_Dang_Nhap:
-				cout<<"\n ==== Dang Nhap ==== \n";
-
-                char ten[50], pass[50];
-                cout << "Nhap ten dang nhap: "; cin >> ten;
-                cout << "Nhap mat khau: "; cin >> pass;
-
-                if (nguoiDung.DangNhapTaiKhoan(ten, pass)) {
-                    cout << "\nDang nhap thanh cong!" << endl;
-					goto ChuyenToiPhanMem;
-                } else {
-                    cout << "Dang nhap that bai. Ten dang nhap hoac mat khau khong chinh xac." << endl;
-					goto Dang_Ki;
-                }
-                break;
-            }
-            case 0:
-                cout << "Ket thuc chuong trinh." << endl;
-                break;
-            default:
-                cout << "Lua chon khong hop le. Vui long nhap lai." << endl;
         }
+    } while (true);
 
-    } while (luaChon != 0); exit(0);
-////////
 
-ChuyenToiPhanMem:
-	quay_ve_trang_chinh:	
-	do{
+
+
+
+
+	do{ 
+        ChuyenToiPhanMem:
+	    quay_ve_trang_chinh:	
+        vao_chuong_trinh_chinh:
 		cout<<"\t|1.Quan Ly Nguoi Dong Thue "<<endl;
 		cout<<"\t|0.Thoat "<<endl;
 		cout<<"Xin moi chon: "; cin>>luachon;
@@ -605,5 +569,7 @@ ChuyenToiPhanMem:
 			case 0: exit(0);
 		}
 	}while(luachon!=0);
-	return 0;
-};
+
+    return 0;
+}
+
