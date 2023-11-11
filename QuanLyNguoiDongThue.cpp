@@ -477,12 +477,12 @@ int main()
 
     int luaChon;
     do {
-		cout<<"==== PHAN MEM QUAN LY THU DONG THUE ====";
-        cout<<"|	1. Dang ky tai khoan.              |" << endl;
-        cout<<"|	2. Dang nhap.    				   |" << endl;
-        cout<<"|	0. Thoat.                          |" << endl;
-        cout<<"|	Lua chon: "; cin >> luaChon;cout<<"                         |"<<endl;
-		cout<<"|_________________________________________";
+		cout<<"==== PHAN MEM QUAN LY THU DONG THUE ====\n";
+        cout<<"1. Dang ky tai khoan. << endl;
+        cout<<"2. Dang nhap." << endl;
+        cout<<"0. Thoat." << endl;
+        cout<<"Lua chon: "; cin >> luaChon; <<endl;
+
         switch (luaChon) {
             case 1: {
 				Dang_Ki:
