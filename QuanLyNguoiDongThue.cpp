@@ -509,9 +509,8 @@ int main() {
 						cout<<"\t|8.Doc File "<<endl;
 						cout<<"\t|9.Tim dien tich lon nhat "<<endl;
 						cout<<"\t|10.Sua nguoi dong thue "<<endl;
-						cout<<"\t|11.Chen nguoi dong thue sau ma nao do "<<endl;
-						cout<<"\t|12.Danh sach theo quy mo "<<endl;
-						cout<<"\t|13.Sap xep dia chi "<<endl;
+						cout<<"\t|11.Danh sach theo quy mo "<<endl;
+						cout<<"\t|12.Sap xep dia chi "<<endl;
 						cout<<"\t|00.Thoat ve giao dien chinh "<<endl;
 						cout<<"chon: "; cin>>chon;
 						switch(chon)
