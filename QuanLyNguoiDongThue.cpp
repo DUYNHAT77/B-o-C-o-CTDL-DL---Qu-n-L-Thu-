@@ -95,13 +95,14 @@ void insertLast(List &Q, Node *pNDT)
 }
 void nhapNDT(NGUOIDONGTHUE &x)
 {
+
 	cout<<"Nhap ma nguoi dong thue:"; cin>>x.maNguoiDT;
 	cout<<"Nhap ma thue: "; cin>>x.maThue;
 	fflush(stdin);
 	cout<<"Nhap ten cong ty: "; gets(x.tenCongTy);
 	cout<<"Nhap dia chi: "; gets(x.diaChi);
 	cout<<"Nhap quy mo: "; gets(x.quyMo);
-	cout<<"Nhap nguoi dung dau: "; gets(x.nguoiDungDau);
+	cout<<"Nhap nguoi dai dien: "; gets(x.nguoiDungDau);
 	cout<<"Nhap dien tich: "; cin>>x.dienTich;
 	if(x.dienTich<3000){
 		x.donGia=5000;
@@ -117,10 +118,11 @@ void nhapNDT(NGUOIDONGTHUE &x)
 }
 void NhapDSNDT(List &Q)
 {
+	cout<<"\n DANH SACH QUAN LY CONG TY DONG THUE \n";
     int n; // so nguoi dong thue
     Node *pNDT; // node trong danh sach
     NGUOIDONGTHUE x; // thong tin nguoi dong thue
-    cout << "Nhap so nguoi dong thue: "; cin >> n;
+    cout << "Nhap so cong ty dong thue: "; cin >> n;
     for (int i = 0; i < n; i++)
     {
         nhapNDT(x); // nhap thong tin nguoi dong thue
@@ -153,7 +155,7 @@ void xuatDSNDT(List &Q)
 	<<setw(12)<<left<<"Ten Cong Ty"<<"\t"
 	<<setw(7)<<left<<"Quy Mo"<<"\t\t"
 	<<setw(10)<<left<<"Dia Chi"<<"\t"
-	<<setw(18)<<left<<"Nguoi Dung Dau"<<"\t"
+	<<setw(18)<<left<<"Nguoi dai dien"<<"\t"
 	<<setw(8)<<left<<"Dien Tich"<<"\t";
 //	cout<<endl;
 	cout<<setw(7)<<left<<"Don Gia"<<"\t\t" <<setw(10)<<left<<"Thanh Tien"<<endl;
@@ -223,6 +225,25 @@ void Sapxepdiachi(List &Q){
 // in danh sách cập nhật
 	xuatDSNDT(Q); 
 }
+
+void sapxepMaNguoiDongThue(List &Q){
+	Node *pNDT, *q;
+	NGUOIDONGTHUE tg;
+
+// Sắp xếp danh sách bằng thuật toán sắp xếp lựa chọn
+	for(pNDT=Q.Head;pNDT!=NULL;pNDT=pNDT->next)
+	   for (q=pNDT->next;q!=NULL;q=q->next)
+	     if (pNDT->info.maNguoiDT > q->info.maNguoiDT)
+	       {
+
+// Hoán đổi các nút nếu dienTich của chúng không đúng thứ tự
+	       	tg=pNDT->info;
+	      	pNDT->info=q->info;
+	      	q->info=tg;
+		   }   
+
+}
+
 
 //xoa theo ma dong thue
 
@@ -428,7 +449,7 @@ int main() {
 
     List Q;
 	Node *pNDT;
-	int k,chon,luachon;
+	int k,chon,luachon, chon_tim_kiem, chon_sap_xep;
 	KhoiTao(Q);
 	FILE *f;
 	char filename[20] = "nguoidongthue.txt" ;
@@ -491,26 +512,22 @@ int main() {
         ChuyenToiPhanMem:
 	    quay_ve_trang_chinh:	
         vao_chuong_trinh_chinh:
-		cout<<"\t|1.Quan Ly Nguoi Dong Thue "<<endl;
+		cout<<"\t|1.QUAN LY CONG TY DONG THUE "<<endl;
 		cout<<"\t|0.Thoat "<<endl;
 		cout<<"Xin moi chon: "; cin>>luachon;
 		switch(luachon)
 		{
 			case 1: {
 						do{
-						cout<<">>>>>>> CHON CHUC NANG >>>>>>>\n";
-						cout<<"\t|1.Nhap danh sach nguoi dong thue "<<endl;
-						cout<<"\t|2.In danh sach nguoi dong thue "<<endl;
-						cout<<"\t|3.Tim kiem theo ma nguoi dong thue "<<endl;
-						cout<<"\t|4.Sap xep theo dien tich "<<endl;
-						cout<<"\t|5.Xoa theo nguoi dong thue theo ma "<<endl;
-						cout<<"\t|6.Tim dia chi "<<endl;
-						cout<<"\t|7.Luu File "<<endl;
-						cout<<"\t|8.Doc File "<<endl;
-						cout<<"\t|9.Tim dien tich lon nhat "<<endl;
-						cout<<"\t|10.Sua nguoi dong thue "<<endl;
-						cout<<"\t|11.Danh sach theo quy mo "<<endl;
-						cout<<"\t|12.Sap xep dia chi "<<endl;
+						cout<<">>>>>>> CHON CHUC NANG QUAN LY CONG TY DONG THUE >>>>>>>\n";
+						cout<<"\t|1.NHAP DANH SACH CONG TY DONG THUE "<<endl;
+						cout<<"\t|2.IN DANH SACH CONG TY DONG THUE "<<endl;
+						cout<<"\t|3.TIM KIEM DANH SACH CONG TY DONG THUE"<<endl;
+						cout<<"\t|4.SAP XEP DANH SACH CONG TY DONG THUE"<<endl;
+						cout<<"\t|5.XOA THONG TIN CONG TY DONG THUE THEO MA NGUOI DONG THUE "<<endl;
+						cout<<"\t|6.LUU FILE DANH SACH CONG TY DONG THUE "<<endl;
+						cout<<"\t|7.DOC FILE DANH SACH CONG TY DONG THUE "<<endl;
+						cout<<"\t|8.SUA THONG TIN CONG TY DONG THUE "<<endl;
 						cout<<"\t|00.Thoat ve giao dien chinh "<<endl;
 						cout<<"chon: "; cin>>chon;
 						switch(chon)
@@ -519,6 +536,17 @@ int main() {
 									Luufile(f,Q,filename); break;
 							case 2: xuatDSNDT(Q); break;
 							case 3:
+								cout<<" \n Vui long chon chuc nang tim kiem \n"<< endl;
+								do{
+								cout<<"\t|1.Tim kiem theo ma nguoi dong thue "<<endl;
+								cout<<"\t|2.Tim dia chi "<<endl;
+								cout<<"\t|3.Tim dien tich lon nhat "<<endl;
+								cout<<"\t|4. Tim kiem theo quy mo"<<endl;
+								cout<<"\t|00.Thoat ve giao dien chinh "<<endl;
+								cout<<"chon: "; cin>>chon_tim_kiem;
+								switch(chon_tim_kiem ){
+								
+									case 1:
 							cout<<"Nhap ma nguoi dong thue k: "; cin>>k;
 							pNDT=search(Q,k);
 							if (pNDT==NULL)
@@ -529,35 +557,62 @@ int main() {
 								cout<<"Tim thay"<<endl;
 								xuatNDT(pNDT->info);
 							 } 
-						     break;
-							case 4: sapxeptheodientich(Q); xuatDSNDT(Q); 
-									Luufile(f,Q,filename); break;
-							case 5: int ma;
-									cout<<"Nhap ma nguoi dong thue can xoa: "; cin>>ma;
-									Remove(Q,ma); xuatDSNDT(Q); 
-									Luufile(f,Q,filename); break;
-							case 6: char x[20];
+									break;
+									case 2:char x[20];
 									fflush(stdin);
 									cout<<"Nhap dia chi can tim x: "; gets(x);
 									TimDiaChi(Q,x);
 									break;
-							case 7: Luufile(f,Q,filename); break;
-							case 8: DocFile(f,Q,filename); break;
-							case 9: DienTichMax(Q); break;
-							case 10: Sua(Q);
+									case 3:
+									DienTichMax(Q);
+									break;
+									case 4: char quymo[12];
+								fflush(stdin);
+								cout<<"Nhap quy mo: "; gets(quymo);
+								ThongKe(Q,quymo);
+									break;
+								}
+								}while(chon_tim_kiem!=0);
+								
+						     break;
+							case 4: 
+							cout<<"\n \t Vui long chon chua nang sap xep\n";
+							do{
+								cout<<"\t|1.Sap xep theo dien tich "<<endl;
+								cout<<"\t|2.Sap xep dia chi "<<endl;
+								cout<<"\t|3.Sap xep theo Ma nguoi dong thue"<<endl;
+								cout<<"\t|00.Thoat ve giao dien chinh "<<endl;
+								cout<<"chon: "; cin>>chon_sap_xep;
+								switch (chon_sap_xep)
+								{
+								case 1:
+									sapxeptheodientich(Q); xuatDSNDT(Q); 
+									Luufile(f,Q,filename);
+									break;
+								case 2:
+								Sapxepdiachi(Q);
+									break;
+								case 3:
+									sapxepMaNguoiDongThue(Q); xuatDSNDT(Q); 
+									Luufile(f,Q,filename);
+									break;
+								
+								}
+
+							}while( chon_sap_xep!= 0);
+							break;
+							
+//							sapxeptheodientich(Q); xuatDSNDT(Q); 
+//							Luufile(f,Q,filename); break;
+							case 5: int ma;
+									cout<<"Nhap ma nguoi dong thue can xoa: "; cin>>ma;
+									Remove(Q,ma); xuatDSNDT(Q); 
+									Luufile(f,Q,filename); break;
+							case 6: Luufile(f,Q,filename); break;
+							case 7: DocFile(f,Q,filename); break;
+							case 8: Sua(Q);
 								Luufile(f,Q,filename);
 								 break;
-							case 11: chenphantusauma(Q); 
-								Luufile(f,Q,filename);
-								break;
-								
-							case 12: 
-							char quymo[12];
-							fflush(stdin);
-							cout<<"Nhap quy mo: "; gets(quymo);
-							ThongKe(Q,quymo);
-							break;
-							case 13: Sapxepdiachi(Q); break;
 							case 00: goto quay_ve_trang_chinh; //exit(0);
 						
 						}
